@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TravelStory</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello">Hello\t There,\nWelcome \tBack</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgetPassword">Forget Password ?</string>
+    <string name="new_user_signup">New Sign Up !</string>
+    <string name="splashText">ALifetime Of World-Class Adventures</string>
+    <string name="getStartText">WELCOME TO\nTrevalio</string>
+    <string name="get_start">Get Start</string>
+    <string name="startText2">Travel Around The World And Know All The Stories And Adventures About Them.</string>
+    <string name="forgetpassword">Enter Your Email Address Associated With Your Account</string>
+</resources>

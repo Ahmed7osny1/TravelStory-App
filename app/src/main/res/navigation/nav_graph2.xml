@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph2"
+    app:startDestination="@id/welcomeFragment">
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.travelstory.ui.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/personFragment"
+        android:name="com.example.travelstory.ui.PersonFragment"
+        android:label="fragment_person"
+        tools:layout="@layout/fragment_person" />
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.example.travelstory.ui.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_personFragment"
+            app:destination="@id/personFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
+</navigation>
