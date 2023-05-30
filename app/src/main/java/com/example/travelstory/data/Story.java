@@ -1,9 +1,10 @@
 package com.example.travelstory.data;
 
-import kotlinx.parcelize.Parcelize;
+import android.os.Parcel;
+import android.os.Parcelable;
+import androidx.annotation.NonNull;
 
-@Parcelize
-public class Story {
+public class Story implements Parcelable{
     private int id;
     private String Title;
     private String originLabel;
@@ -26,6 +27,43 @@ public class Story {
         this.authorGender = authorGender;
         this.location = location;
     }
+
+    public Story(Story story) {
+        this.id = story.id;
+        Title = story.Title;
+        this.originLabel = story.originLabel;
+        this.date = story.date;
+        this.textStory = story.textStory;
+        this.language = story.language;
+        this.authorId = story.authorId;
+        this.authorGender = story.authorGender;
+        this.location = story.location;
+    }
+
+    protected Story(Parcel in) {
+        id = in.readInt();
+        Title = in.readString();
+        originLabel = in.readString();
+        date = in.readString();
+        textStory = in.readString();
+        language = in.readString();
+        authorId = in.readString();
+        authorGender = in.readString();
+        location = in.readString();
+    }
+
+
+    public static final Creator<Story> CREATOR = new Creator<Story>() {
+        @Override
+        public Story createFromParcel(Parcel in) {
+            return new Story(in);
+        }
+
+        @Override
+        public Story[] newArray(int size) {
+            return new Story[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -97,5 +135,24 @@ public class Story {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(Title);
+        parcel.writeString(originLabel);
+        parcel.writeString(date);
+        parcel.writeString(textStory);
+        parcel.writeString(language);
+        parcel.writeString(authorId);
+        parcel.writeString(authorGender);
+        parcel.writeString(location);
     }
 }

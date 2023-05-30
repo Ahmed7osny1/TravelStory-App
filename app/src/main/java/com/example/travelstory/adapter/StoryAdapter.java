@@ -59,6 +59,4 @@ public class StoryAdapter extends BaseAdapter {
 
         return v;
     }
-
-
 }

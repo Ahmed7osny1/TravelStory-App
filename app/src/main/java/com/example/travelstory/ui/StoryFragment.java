@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.text.Html;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.example.travelstory.adapter.StoryAdapter;
 import com.example.travelstory.data.Story;
 import com.example.travelstory.data.StoryData;
 import com.example.travelstory.databinding.FragmentStoryBinding;
+import com.example.travelstory.ui.StoryFragmentDirections;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,9 +68,14 @@ public class StoryFragment extends Fragment {
         binding.rvStories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String name = story.get(i).getDate();
-                Toast.makeText(getActivity(), name, Toast.LENGTH_LONG).show();
 
+                Story myCustomObject = new Story(story.get(i));
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("myCustomObject", myCustomObject);
+
+                Navigation.findNavController(view).navigate(
+                        R.id.action_storyFragment_to_detailsFragment, bundle);
             }
         });
 
