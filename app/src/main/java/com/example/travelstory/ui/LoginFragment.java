@@ -49,8 +49,13 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(checkLogin()) {
+
+                    // Storing login action
+                    prefsEditor.putString("condition", "logined");
+                    prefsEditor.commit();
+
                     Navigation.findNavController(view).navigate(
-                            R.id.action_loginFragment_to_homeFragment);
+                            R.id.action_loginFragment_to_enterActivity);
                 }
             }
         });

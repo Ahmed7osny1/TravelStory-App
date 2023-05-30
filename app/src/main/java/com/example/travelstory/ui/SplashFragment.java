@@ -49,7 +49,7 @@ public class SplashFragment extends Fragment {
 
                 if(prefs.getString("condition", "").equals("logined")){
                     Navigation.findNavController(view).navigate(
-                            R.id.action_splashFragment_to_homeFragment);
+                            R.id.action_splashFragment_to_enterActivity);
                 }else {
                     if(prefs.getString("condition","").equals("onboard")) {
                         Navigation.findNavController(view).navigate(

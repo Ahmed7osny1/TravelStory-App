@@ -1,24 +1,19 @@
 package com.example.travelstory.ui;
 
 import static android.content.Context.MODE_PRIVATE;
-
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.example.travelstory.R;
 import com.example.travelstory.databinding.FragmentForgetPassBinding;
-import com.example.travelstory.databinding.FragmentHomeBinding;
 
 public class ForgetPassFragment extends Fragment {
 

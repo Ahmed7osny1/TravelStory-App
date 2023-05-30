@@ -12,6 +12,11 @@
         android:icon="@drawable/ic_favorite"/>
 
     <item
+        android:id="@+id/storyFragment"
+        android:title="Stories"
+        android:icon="@drawable/ic_story"/>
+
+    <item
         android:id="@+id/personFragment"
         android:title="Profile"
         android:icon="@drawable/ic_person"/>

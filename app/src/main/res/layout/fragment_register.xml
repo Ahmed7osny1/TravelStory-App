@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.RegisterFragment">
 
-
     <ImageView
         android:id="@+id/backPage"
         android:layout_width="wrap_content"
@@ -27,7 +26,7 @@
         android:gravity="center"
         android:text="Register"
         android:textColor="@color/grayText"
-        android:textSize="@dimen/_28sdp"
+        android:textSize="@dimen/_28ssp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +54,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.264">
 
@@ -168,8 +166,6 @@
             app:counterEnabled="true"
             app:counterMaxLength="8"
             app:endIconMode="password_toggle"
-
-            app:helperTextTextColor="#D00B0B"
             app:startIconDrawable="@drawable/ic_password">
 
             <com.google.android.material.textfield.TextInputEditText

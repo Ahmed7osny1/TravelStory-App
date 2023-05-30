@@ -4,27 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph2"
     app:startDestination="@id/welcomeFragment">
-
-    <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.example.travelstory.ui.FavoriteFragment"
-        android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
-    <fragment
-        android:id="@+id/personFragment"
-        android:name="com.example.travelstory.ui.PersonFragment"
-        android:label="fragment_person"
-        tools:layout="@layout/fragment_person" />
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.example.travelstory.ui.WelcomeFragment"
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
+            android:id="@+id/action_welcomeFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_storyFragment"
+            app:destination="@id/storyFragment" />
+        <action
             android:id="@+id/action_welcomeFragment_to_personFragment"
             app:destination="@id/personFragment" />
         <action
-            android:id="@+id/action_welcomeFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            android:id="@+id/action_welcomeFragment_to_mainActivity"
+            app:destination="@id/mainActivity"
+            app:popUpTo="@id/mainActivity"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_countryFilterFragment"
+            app:destination="@id/countryFilterFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_labelFilterFragment"
+            app:destination="@id/labelFilterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.travelstory.ui.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.travelstory.ui.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/storyFragment"
+        android:name="com.example.travelstory.ui.StoryFragment"
+        android:label="fragment_story"
+        tools:layout="@layout/fragment_story" >
+        <action
+            android:id="@+id/action_storyFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personFragment"
+        android:name="com.example.travelstory.ui.PersonFragment"
+        android:label="fragment_person"
+        tools:layout="@layout/fragment_person" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.travelstory.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/countryFilterFragment"
+        android:name="com.example.travelstory.ui.CountryFilterFragment"
+        android:label="fragment_country_filter"
+        tools:layout="@layout/fragment_country_filter" >
+        <argument
+            android:name="location"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_countryFilterFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/labelFilterFragment"
+        android:name="com.example.travelstory.ui.LabelFilterFragment"
+        android:label="fragment_label_filter"
+        tools:layout="@layout/fragment_label_filter" >
+        <action
+            android:id="@+id/action_labelFilterFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <argument
+            android:name="label"
+            app:argType="string" />
     </fragment>
 </navigation>
