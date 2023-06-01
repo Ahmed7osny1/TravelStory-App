@@ -15,8 +15,11 @@ public class Story implements Parcelable{
     private String authorGender;
     private String location;
 
+    private String favStatus;
+
     public Story(int id, String title, String originLabel, String date, String textStory,
-                 String language, String authorId, String authorGender, String location) {
+                 String language, String authorId, String authorGender, String location,
+                 String favStatus) {
         this.id = id;
         Title = title;
         this.originLabel = originLabel;
@@ -26,6 +29,7 @@ public class Story implements Parcelable{
         this.authorId = authorId;
         this.authorGender = authorGender;
         this.location = location;
+        this.favStatus = favStatus;
     }
 
     public Story(Story story) {
@@ -38,6 +42,7 @@ public class Story implements Parcelable{
         this.authorId = story.authorId;
         this.authorGender = story.authorGender;
         this.location = story.location;
+        this.favStatus = story.favStatus;
     }
 
     protected Story(Parcel in) {
@@ -50,6 +55,7 @@ public class Story implements Parcelable{
         authorId = in.readString();
         authorGender = in.readString();
         location = in.readString();
+        favStatus = in.readString();
     }
 
 
@@ -137,6 +143,14 @@ public class Story implements Parcelable{
         this.location = location;
     }
 
+    public String getFavStatus() {
+        return favStatus;
+    }
+
+    public void setFavStatus(String favStatus) {
+        this.favStatus = favStatus;
+    }
+
 
     @Override
     public int describeContents() {
@@ -154,5 +168,6 @@ public class Story implements Parcelable{
         parcel.writeString(authorId);
         parcel.writeString(authorGender);
         parcel.writeString(location);
+        parcel.writeString(favStatus);
     }
 }

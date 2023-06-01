@@ -34,6 +34,14 @@ public class DetailsFragment extends Fragment {
         if (bundle != null) {
             Story story = bundle.getParcelable("myCustomObject");
             binding.Title.setText(story.getTitle());
+            binding.date.setText(story.getDate());
+            binding.originLabel.setText(story.getOriginLabel());
+            binding.storyid.setText("# " + story.getId());
+            binding.textStory.setText(story.getTextStory());
+            binding.authorId.setText(story.getAuthorId());
+            binding.gender.setText(story.getAuthorGender());
+            binding.storyLanguage.setText(story.getLanguage());
+            binding.storyLocation.setText(story.getLocation());
         }
     }
 }

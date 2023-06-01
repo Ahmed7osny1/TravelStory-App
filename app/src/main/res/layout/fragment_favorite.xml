@@ -5,5 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.FavoriteFragment">
 
+    <ListView
+        android:id="@+id/rvFavourite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/grayBack"
+        android:dividerHeight="@dimen/_3sdp"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

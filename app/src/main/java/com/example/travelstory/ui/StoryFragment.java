@@ -1,36 +1,29 @@
 package com.example.travelstory.ui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.travelstory.R;
+import com.example.travelstory.adapter.FavouriteAdapter;
 import com.example.travelstory.adapter.StoryAdapter;
 import com.example.travelstory.data.Story;
 import com.example.travelstory.data.StoryData;
 import com.example.travelstory.databinding.FragmentStoryBinding;
-import com.example.travelstory.ui.StoryFragmentDirections;
+import com.example.travelstory.db.FavDB;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class StoryFragment extends Fragment {
@@ -38,7 +31,8 @@ public class StoryFragment extends Fragment {
     FragmentStoryBinding binding;
 
     String jsonText;
-    ArrayList<Story> story;
+    private ArrayList<Story> favItemList = new ArrayList<>();
+    private FavDB favDB;
 
     StoryAdapter adapter;
 
@@ -48,6 +42,8 @@ public class StoryFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentStoryBinding.inflate(inflater, container, false);
 
+        favDB = new FavDB(getActivity());
+
         return binding.getRoot();
 
     }
@@ -56,34 +52,86 @@ public class StoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        jsonText = new StoryData().readJSON(getContext());
-        story = new ArrayList<>();
+        SharedPreferences prefs = getContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        boolean firstStart = prefs.getBoolean("firstStart", true);
 
-        story = new StoryData().parseJSON(jsonText);
+        if(firstStart) {
 
-        adapter = new StoryAdapter(getContext(), story);
+            prefs = getContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("firstStart", false);
+            editor.apply();
+
+            jsonText = new StoryData().readJSON(getContext());
+            favItemList = new ArrayList<>();
+
+            favItemList = new StoryData().parseJSON(jsonText, getContext());
+        }else loadData();
+
+        adapter = new StoryAdapter(getContext(), favItemList);
 
         binding.rvStories.setAdapter(adapter);
-
         binding.rvStories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Story myCustomObject = new Story(favItemList.get(i));
 
-                Story myCustomObject = new Story(story.get(i));
+                favDB.add_fav(Integer.toString(favItemList.get(i).getId()));
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("myCustomObject", myCustomObject);
-
-                Navigation.findNavController(view).navigate(
-                        R.id.action_storyFragment_to_detailsFragment, bundle);
             }
         });
 
-
     }
 
+    private void loadData() {
+        if (favItemList != null) {
+            favItemList.clear();
+        }
+        SQLiteDatabase db = favDB.getReadableDatabase();
+        Cursor cursor = favDB.select_all_list();
+        try {
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(cursor.getColumnIndexOrThrow(FavDB.KEY_ID));
+                String title = cursor.getString(
+                        cursor.getColumnIndexOrThrow(FavDB.STORY_TITLE));
+                String originLabel = cursor.getString(
+                        cursor.getColumnIndexOrThrow(FavDB.ORIGIN_LABEL));
+                String date = cursor.getString(cursor.getColumnIndexOrThrow(FavDB.STORY_DATE));
+                String textStory = cursor.getString(
+                        cursor.getColumnIndexOrThrow(FavDB.STORY_TEXT));
+                String language = cursor.getString(
+                        cursor.getColumnIndexOrThrow(FavDB.STORY_LANGUAGE));
+                String authorID = cursor.getString(cursor.getColumnIndexOrThrow(
+                        FavDB.AUTHOR_ID));
+                String gender = cursor.getString(
+                        cursor.getColumnIndexOrThrow(FavDB.AUTHOR_GENDER));
+                String location = cursor.getString(
+                        cursor.getColumnIndexOrThrow(FavDB.STORY_LOCATION));
+                String favStatus = cursor.getString(
+                        cursor.getColumnIndexOrThrow(FavDB.FAVORITE_STATUS));
 
+                Story favItem = new Story(
+                        Integer.parseInt(id),
+                        title,
+                        originLabel,
+                        date,
+                        textStory,
+                        language,
+                        authorID,
+                        gender,
+                        location,
+                        favStatus
+                );
+                favItemList.add(favItem);
+            }
+        } finally {
+            if (cursor != null && cursor.isClosed())
+                cursor.close();
+            db.close();
+        }
 
+        Log.d("FavDB Status", favItemList.toString());
 
+    }
 
 }

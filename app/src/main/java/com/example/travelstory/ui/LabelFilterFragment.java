@@ -49,7 +49,7 @@ public class LabelFilterFragment extends Fragment {
         jsonText =storyData.readJSON(getContext());
         story = new ArrayList<>();
 
-        story = storyData.parseJSON(jsonText);
+        story = storyData.parseJSON(jsonText, getContext());
 
         originLabel = storyData.getLabel(label, story);
 

@@ -1,8 +1,12 @@
 package com.example.travelstory.data;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+import android.view.contentcapture.ContentCaptureCondition;
 
 import com.example.travelstory.R;
+import com.example.travelstory.db.FavDB;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,55 +39,70 @@ public class StoryData {
         return json;
     }
 
-    public ArrayList<Story> parseJSON (String jsonStr) {
+    public ArrayList<Story> parseJSON (String jsonStr, Context context) {
 
-        story = new ArrayList<>();
+        FavDB favDB = new FavDB(context);
 
-        if (jsonStr != null) {
-            try {
+            story = new ArrayList<>();
 
-                JSONArray cis = new JSONArray(jsonStr);
-                for (int i = 0; i < cis.length(); i++) {
-                    JSONObject c = cis.getJSONObject(i);
+            if (jsonStr != null) {
+                try {
+                    JSONArray cis = new JSONArray(jsonStr);
+                    for (int i = 0; i < cis.length(); i++) {
+                        JSONObject c = cis.getJSONObject(i);
 
-                    int id = c.getInt("id");
-                    String title = c.getString("title");
-                    String originLabel = c.getJSONObject("origin").getString("label");
-                    String date = c.getString("created");
-                    String textStory = c.getJSONObject("textStory").getString("story");
-                    String location = c.getJSONObject("location").getJSONObject("country").getString("label");
-                    String language = c.getJSONObject("textStory").getJSONArray("languages").getJSONObject(0).getString("label");
-                    JSONObject authorGender = c.getJSONObject("textStory").getJSONObject("author");
-                    String gender, authorID;
-                    if (authorGender.isNull("gender")) {
-                        authorGender.put("gender", 0);
-                        gender = "NOT FOUND";
-                        authorID = "NOT FOUND";
-                    } else {
-                        gender = authorGender.getJSONObject("gender").getString("label");
-                        authorID = authorGender.getJSONObject("gender").getString("id");
+                        int id = c.getInt("id");
+                        String title = c.getString("title");
+                        String originLabel = c.getJSONObject("origin").getString("label");
+                        String date = c.getString("created");
+                        String textStory = c.getJSONObject("textStory").getString("story");
+                        String location = c.getJSONObject("location").getJSONObject("country").getString("label");
+                        String language = c.getJSONObject("textStory").getJSONArray("languages").getJSONObject(0).getString("label");
+                        JSONObject authorGender = c.getJSONObject("textStory").getJSONObject("author");
+                        String gender, authorID;
+                        if (authorGender.isNull("gender")) {
+                            authorGender.put("gender", 0);
+                            gender = "NOT FOUND";
+                            authorID = "NOT FOUND";
+                        } else {
+                            gender = authorGender.getJSONObject("gender").getString("label");
+                            authorID = authorGender.getJSONObject("gender").getString("id");
+                        }
+
+
+                        Story storyData = new Story(
+                                id,
+                                title,
+                                originLabel,
+                                date,
+                                textStory,
+                                language,
+                                authorID,
+                                gender,
+                                location,
+                                "0"
+                        );
+
+                        favDB.insertIntoTheDatabase(
+                                id,
+                                title,
+                                originLabel,
+                                date,
+                                textStory,
+                                language,
+                                authorID,
+                                gender,
+                                location,
+                                "0"
+                        );
+
+                        story.add(storyData);
                     }
 
-
-                    Story storyData = new Story(
-                            id,
-                            title,
-                            originLabel,
-                            date,
-                            textStory,
-                            language,
-                            authorID,
-                            gender,
-                            location
-                    );
-
-                    story.add(storyData);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
         return story;
     }
 
