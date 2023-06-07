@@ -7,12 +7,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.example.travelstory.R;
 import com.example.travelstory.adapter.FavouriteAdapter;
@@ -51,12 +53,27 @@ public class FavoriteFragment extends Fragment {
         binding.rvFavourite.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Story myCustomObject = new Story(favItemList.get(i));
 
                 favDB.remove_fav(Integer.toString(favItemList.get(i).getId()));
 
+                Toast.makeText(getContext(), "Item Removed Successfully",
+                        Toast.LENGTH_LONG).show();
+
+                adapter.notifyDataSetChanged();
             }
         });
+
+        binding.pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                binding.pullToRefresh.setRefreshing(false);
+
+                loadData();
+
+                binding.rvFavourite.setAdapter(adapter);
+            }
+        });
+
 
     }
 

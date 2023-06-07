@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,7 +53,8 @@ public class StoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SharedPreferences prefs = getContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences("prefs",
+                Context.MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
 
         if(firstStart) {
@@ -60,6 +62,7 @@ public class StoryFragment extends Fragment {
             prefs = getContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("firstStart", false);
+            editor.putInt("id",0);
             editor.apply();
 
             jsonText = new StoryData().readJSON(getContext());
@@ -74,10 +77,27 @@ public class StoryFragment extends Fragment {
         binding.rvStories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Story myCustomObject = new Story(favItemList.get(i));
 
                 favDB.add_fav(Integer.toString(favItemList.get(i).getId()));
 
+                Toast.makeText(getContext(), "Favourite Item Successfully",
+                        Toast.LENGTH_LONG).show();
+
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        binding.pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                binding.pullToRefresh.setRefreshing(false);
+
+                if(firstStart){
+                    jsonText = new StoryData().readJSON(getContext());
+                    favItemList = new ArrayList<>();
+
+                    favItemList = new StoryData().parseJSON(jsonText, getContext());
+                }else loadData();
             }
         });
 
@@ -131,6 +151,10 @@ public class StoryFragment extends Fragment {
         }
 
         Log.d("FavDB Status", favItemList.toString());
+
+        adapter = new StoryAdapter(getContext(), favItemList);
+
+        binding.rvStories.setAdapter(adapter);
 
     }
 

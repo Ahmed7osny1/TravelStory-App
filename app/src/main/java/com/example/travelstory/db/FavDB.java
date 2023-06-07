@@ -12,9 +12,7 @@ public class FavDB extends SQLiteOpenHelper {
     private static int DB_VERSION = 1;
     private static String DATABASE_NAME = "StoryDB";
     private static String TABLE_NAME = "favoriteTable";
-
     public static String KEY_ID = "id";
-
     public static String STORY_TITLE = "storyTitle";
     public static String ORIGIN_LABEL = "originLabel";
     public static String STORY_DATE = "date";
@@ -40,9 +38,7 @@ public class FavDB extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
-    }
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}
 
     // insert data into database
     public void insertIntoTheDatabase(int id, String title, String originLabel, String date,
@@ -97,20 +93,6 @@ public class FavDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM "+TABLE_NAME+" WHERE "+FAVORITE_STATUS+" ='0'";
         Log.d("FavDB StatusAll", sql);
-        return db.rawQuery(sql,null,null);
-    }
-
-    // select all favorite list label
-    public Cursor select_all_label(String label) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT * FROM "+TABLE_NAME+" WHERE "+ORIGIN_LABEL+" ="+label+"";
-        return db.rawQuery(sql,null,null);
-    }
-
-    // select all favorite list country
-    public Cursor select_all_country(String country) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT * FROM "+TABLE_NAME+" WHERE "+FAVORITE_STATUS+" ="+country+"";
         return db.rawQuery(sql,null,null);
     }
 

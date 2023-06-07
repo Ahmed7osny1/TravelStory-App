@@ -23,8 +23,6 @@ public class FavouriteAdapter extends BaseAdapter {
     Context context;
     ArrayList<Story> story;
 
-    private FavDB favDB;
-
     public FavouriteAdapter(Context context, ArrayList<Story> story) {
         this.context = context;
         this.story = story;
@@ -49,7 +47,6 @@ public class FavouriteAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         View v = view;
-        favDB = new FavDB(context);
         if (v == null) {
             v = LayoutInflater.from(context).inflate(R.layout.story_item,
                     null, false);

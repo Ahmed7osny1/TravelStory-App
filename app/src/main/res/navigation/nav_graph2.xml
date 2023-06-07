@@ -57,7 +57,11 @@
         android:id="@+id/personFragment"
         android:name="com.example.travelstory.ui.PersonFragment"
         android:label="fragment_person"
-        tools:layout="@layout/fragment_person" />
+        tools:layout="@layout/fragment_person" >
+        <action
+            android:id="@+id/action_personFragment_to_addPostFragment"
+            app:destination="@id/addPostFragment" />
+    </fragment>
     <activity
         android:id="@+id/mainActivity"
         android:name="com.example.travelstory.MainActivity"
@@ -86,5 +90,14 @@
         <argument
             android:name="label"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPostFragment"
+        android:name="com.example.travelstory.ui.AddPostFragment"
+        android:label="fragment_add_post"
+        tools:layout="@layout/fragment_add_post" >
+        <action
+            android:id="@+id/action_addPostFragment_to_personFragment"
+            app:destination="@id/personFragment" />
     </fragment>
 </navigation>

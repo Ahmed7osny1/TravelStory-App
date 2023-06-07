@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,14 @@ public class PersonFragment extends Fragment {
         binding.yourEmail.setText(prefs.getString("email",""));
         binding.yourPassword.setText(prefs.getString("password",""));
         binding.yourPhone.setText(prefs.getString("phone",""));
+
+        binding.addPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(
+                        R.id.action_personFragment_to_addPostFragment);
+            }
+        });
 
     }
 }
